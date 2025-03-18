@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .quiz-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    .options {
+      margin-bottom: 20px;
+    }
+    .options label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .submit-btn {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Mini Quiz App</h1>
+    <div id="quiz"></div>
+    <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What does QoS stand for in network management?",
+        options: ["Quality of Service", "Quantity of Service", "Quickness of Service", "Query of Service"],
+        answer: "Quality of Service"
+      },
+      {
+        question: "What is the primary purpose of QoS metrics?",
+        options: [
+          "To measure the speed of the network",
+          "To ensure network performance meets user expectations",
+          "To increase the number of users on the network",
+          "To reduce the cost of network equipment"
+        ],
+        answer: "To ensure network performance meets user expectations"
+      },
+      {
+        question: "Transmission speed is usually measured in:",
+        options: ["Bytes per second", "Bits per second", "Megabytes per second", "Gigabytes per second"],
+        answer: "Bits per second"
+      },
+      {
+        question: "Which of the following is NOT a QoS metric?",
+        options: ["Latency", "Jitter", "Bandwidth", "Encryption"],
+        answer: "Encryption"
+      },
+      {
+        question: "What is the difference between rated speed and throughput?",
+        options: [
+          "Rated speed is the maximum speed, while throughput is the actual speed achieved",
+          "Rated speed is the minimum speed, while throughput is the maximum speed",
+          "Rated speed is the speed of the router, while throughput is the speed of the switch",
+          "There is no difference"
+        ],
+        answer: "Rated speed is the maximum speed, while throughput is the actual speed achieved"
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+    const resultContainer = document.getElementById("result");
+
+    // Display the quiz questions
+    function buildQuiz() {
+      quizData.forEach((question, index) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("question");
+        questionDiv.innerHTML = `<p>${index + 1}. ${question.question}</p>`;
+
+        const optionsDiv = document.createElement("div");
+        optionsDiv.classList.add("options");
+
+        question.options.forEach((option) => {
+          const label = document.createElement("label");
+          label.innerHTML = `
+            <input type="radio" name="question${index}" value="${option}">
+            ${option}
+          `;
+          optionsDiv.appendChild(label);
+        });
+
+        questionDiv.appendChild(optionsDiv);
+        quizContainer.appendChild(questionDiv);
+      });
+    }
+
+    // Submit the quiz and calculate the score
+    function submitQuiz() {
+      let score = 0;
+      quizData.forEach((question, index) => {
+        const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+        if (selectedOption && selectedOption.value === question.answer) {
+          score++;
+        }
+      });
+
+      resultContainer.innerHTML = `You scored ${score} out of ${quizData.length}!`;
+    }
+
+    // Build the quiz when the page loads
+    buildQuiz();
+  </script>
+</body>
+</html>
